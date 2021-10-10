@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <style>
+        body>#main {
+            
+            margin: auto;
+            background-color:#2C2F34;
+           
+            width: 27%;
+            padding: 20px;;
+            text-align: center;
+            border-radius: 5px;
+
+        }
+       
+
+       
+
+            input[type="submit"] {
+            position: relative;
+            background-color: aliceblue;
+            height: 35px;
+            width: 55%;
+            transition: all 0.5s;
+        }
+        .error{
+            position: relative;
+            width: 85%;
+            height: 40px;
+            margin: 20px auto;
+            width: 100%;
+            text-align: center;
+        }
+        input{
+            width:95%;
+            height:40px;
+            border-radius: 5px;
+            font-size: 25px;
+            background-color: #191919;
+        }
+
+        .error-msg{
+            position: absolute;
+            left:100%;
+            width:320px;
+            background-color:red;
+            top:0px;
+            height:30px;
+            display: none;
+            color:white;
+            
+            
+            
+           border-top-left-radius: 95px;
+           
+            
+        }
+        .error-msg p{
+            padding:0px;
+            margin:0px;
+            font-size:18px;
+            margin-top: 3px;
+            
+        }
+       #main > p{
+           margin:0px;
+           color: red;
+           font-size: 22px;
+           display: none;
+       }
+       .error input{
+           color:white;
+       }
+       #success{
+        margin: auto;
+        
+        margin-top: 12%;
+        width: 27%;
+        padding: 20px;;
+        text-align: center;
+        border-radius: 5px;
+       }
+       #success p{
+           color:green;
+           margin:0px;
+           padding:0px;
+           font-size: 20px;
+            display: none;
+       }
+
+       body{
+        position: relative;
+        background-color: #27292D;
+    }
+   #navbar {
+       position:fixed;
+       width:96%;
+       left:2%;
+       right:2%;
+       top:10px;
+       
+
+    }
+    ul{
+        list-style-type:none;
+        float:right;
+        text-align: center;
+    }
+    li{
+        display:inline-block;
+        margin-right:60px;
+        font-size:25px;
+        font-weight: normal;
+        width:120px;
+        height:40px;
+        padding-top:12px;
+        transition:all 2s;
+        color:white;
+        background-color: green;
+        border-radius: 2px;;
+        
+    }
+  
+    a{
+        text-decoration: none;
+        color:black;
+        color:white;
+        
+    }
+    li:hover{
+        background-color:blue;
+        border-radius:5px;
+    }
+    input[type="submit"]:hover{
+        background-color:brown;
+      
+       cursor:pointer;
+    }
+   
+    
+   
+    
+    </style>
+</head>
+
+<body>
+    <div id="navbar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li>Login</li>
+            <li>Signup</li>
+        </ul>
+    </div>
+
+    <div id="success">
+        <p id="s-msg">Account is Successfully Created</p>
+    </div>
+    <div id="main">
+        <p id="alreadyExist">User already exist</p>
+            <form>
+            <div class="error" id="error-name">
+            <input type="text" id="name" placeholder="Name">
+            <div class="error-msg" id="error1">
+                <p>Name can not be Empty.</p>
+            </div>
+        </div>
+        <div class="error" id="error-mob">
+            <input type="tel" id="mob" placeholder="Phone no">
+            <div class="error-msg" id="error2">
+                <p>Please Enter Valid Mobile number.</p>
+            </div>
+        </div>
+        <div class="error" id="error-email">
+            <input type="email" id="email" placeholder="Email">
+            <div class="error-msg" id="error3">
+                <p>Please Enter Valid Email.</p>
+            </div>
+        </div>
+        <div class="error" id="error-pass">
+            <input type="password" id="password" placeholder="Password">
+            <div class="error-msg" id="error4">
+                <p>Passwrod field cannot be empty.</p>
+            </div>
+        </div>
+            <input type="submit" value="Submit">
+
+        </form>
+      
+     
+    <script>
+        var errorMsg=null
+
+        function validateAllField(nameEle,mobEle,emailEle,passEle)
+        {
+            if(!nameEle.value)
+            {
+                if(errorMsg)
+                document.getElementById(errorMsg).style.display="none"
+                document.getElementById('error1').style.display="block";
+                errorMsg='error1'
+                return true
+            }
+            else if(!mobEle.value)
+            {
+                if(errorMsg)
+                document.getElementById(errorMsg).style.display="none"
+                document.getElementById('error2').style.display="block";
+                errorMsg='error2'
+                return true
+            }
+            else if(!emailEle.value)
+            {
+                if(errorMsg)
+                document.getElementById(errorMsg).style.display="none"
+                document.getElementById('error3').style.display="block";
+                errorMsg='error3'
+                return true
+            }
+            else if(!passEle.value)
+            {
+                if(errorMsg)
+                document.getElementById(errorMsg).style.display="none"
+                document.getElementById('error4').style.display="block";
+                errorMsg='error4'
+                return true
+            }
+            for(let i=1;i<5;i++)
+            {
+                document.getElementById('error'+i).style.display="none"
+
+            }
+            return false
+        }
+
+
+        var userArray = []
+        let formEle = document.querySelector('form')
+        function resetField(nameEle, mobEle, emailEle, passEle) {
+
+            nameEle.value = ''
+            mobEle.value = ''
+            emailEle.value = ''
+            passEle.value = ''
+        }
+        function checkUserExist(emailEle, mobEle) {
+            for (var i = 0; i < userArray.length; i++) {
+                if ((userArray[i].email).toLowerCase() == (emailEle.value).toLowerCase() || userArray[i].mobile == mobEle.value)
+                {
+                    document.getElementById('alreadyExist').style.display="block"     
+                return true
+                }
+
+            }
+            document.getElementById('alreadyExist').style.display="none"
+            return false
+        }
+
+        function addUserInfo() {
+            event.preventDefault()
+            var nameEle = document.querySelectorAll('input')[0]
+            var mobEle = document.querySelectorAll('input')[1]
+            var emailEle = document.querySelectorAll('input')[2]
+            var passEle = document.querySelectorAll('input')[3]
+            console.log(nameEle.value, mobEle.value, emailEle.value, passEle.value)
+            if (validateAllField(nameEle, mobEle,emailEle,passEle)) {
+                return
+            }
+            if (checkUserExist(emailEle, mobEle)) {
+               
+                return
+            }
+            var obj = {
+                name: nameEle.value,
+                mobile: mobEle.value,
+                email: emailEle.value,
+                pass: passEle.value
+            }
+            userArray.push(obj)
+            resetField(nameEle, mobEle, emailEle, passEle)
+            localStorage.setItem('signup', JSON.stringify(userArray))
+            
+            document.getElementById('s-msg').style.display='block';
+            setTimeout(function()
+            {
+                window.location.href="login.html"
+            },3000)
+
+
+        }
+
+        function handleUserInfo() {
+            let data = JSON.parse(localStorage.getItem('signup'))
+            if (!data)
+                return
+            userArray = data
+
+        }
+        window.addEventListener('load',function()
+        {
+            handleUserInfo()
+            formEle.addEventListener('submit',addUserInfo)
+        })
+        let loginBtn=document.querySelectorAll('li')[1]
+        let signupBtn=document.querySelectorAll('li')[2]
+        loginBtn.addEventListener('click',redirectPage)
+        signupBtn.addEventListener('click',redirectPage)
+        function redirectPage(e)
+        {  
+
+            if(e.target.textContent=='Login')
+            {
+                window.location.href="login.html"
+            }
+            else if(e.target.textContent=='Signup')
+            {
+                window.location.href="signup.html"
+            }
+           
+        }
+        
+      
+
+    </script>
+</body>
+
+</html>

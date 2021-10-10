@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+     
+        body{
+            position: relative;
+            height: 90vh;
+            background-color: #27292D;
+        }
+        body > div:nth-child(2)
+        {
+            margin: auto;
+            position: relative;
+            width:27%;
+            background-color: #191919;
+            padding:40px 0px;;
+            top:29%;
+            text-align: center;
+           
+        }
+        input{
+           
+            width: 95%;
+            height:40px;
+            border-radius: 5px;
+            font-size: 25px;
+           background-color: black;
+           color:white;
+            
+
+        }
+
+        form > input
+        {
+            background-color: blue;
+            height:35px;
+            width: 45%;
+        
+
+        }
+        body .input-field{
+            width:80%;
+            position: relative;
+            height:40px;
+            margin:20px auto;
+           
+        }
+        .error-msg{
+            position: absolute;
+            left:100%;
+            width:220px;
+            border-top-left-radius: 45px;
+            background-color:red;
+            top:0px;
+            height:30px;
+            color:white;
+        display: none;}
+        
+
+            .error-msg p{
+                padding:0px;
+            margin:0px;
+            font-size:18px;
+            margin-top: 3px;
+            
+            }
+           body > div:nth-child(2) > p {margin:0px;
+           color: red;
+           font-size: 22px;
+           display: none;
+        }
+        #navbar {
+            position:fixed;
+            width:96%;
+            left:2%;
+            right:2%;
+            top:10px;
+            
+     
+         }
+         ul{
+             list-style-type:none;
+             float:right;
+             text-align: center;
+         }
+         li{
+             display:inline-block;
+             margin-right:60px;
+             font-size:25px;
+             font-weight: normal;
+             width:120px;
+             height:40px;
+             padding-top:12px;
+             transition:all 2s;
+             color:white;
+             background-color: green;
+             border-radius: 2px;;
+             
+         }
+       
+         a{
+             text-decoration: none;
+             color:black;
+             color:white;
+             
+         }
+         li:hover{
+             background-color:blue;
+             border-radius:5px;
+             cursor: pointer;
+         }
+
+ form > input:hover{
+     background-color: brown;
+     cursor: pointer;
+ }
+
+    </style>
+</head>
+<body>
+    <div id="navbar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li>Login</li>
+            <li>Signup</li>
+        </ul>
+    </div>
+    <div>
+        <p id="userExist">User Not Exist</p>
+        <form action="home.html">
+        <div class="input-field">
+       
+        <input type="email" placeholder="Email">
+        <div class="error-msg" id="error1">
+            <p>Enter your Email</p>
+        </div>
+    </div>
+    
+    <div class="input-field">
+        <input type="password" placeholder="Password">
+        <div class="error-msg" id="error2">
+            <p>Enter your Password</p>
+        </div>
+    </div>
+        <input type="button" value="Login">
+
+        </form>
+    </div>
+    <script>
+        let status=false
+        let errorMsg=null
+        function validateAllField(emailEle,passEle)
+        {
+            if(!emailEle.value)
+            {
+                if(errorMsg)
+                document.getElementById(errorMsg).style.display="none";
+                document.getElementById('error1').style.display="block"
+                errorMsg='error1'
+                return true
+
+            }
+            else if(!passEle.value)
+            {
+                if(errorMsg)
+                document.getElementById(errorMsg).style.display="none"
+                document.getElementById('error2').style.display="block"
+                errorMsg='error2'
+                return true
+
+            }
+            for(let i=1;i<3;i++)
+            document.getElementById('error'+i).style.display="none";
+            return false
+
+        }
+
+        function checkUserExit(data,emailEle,passEle)
+        {
+            localStorage.getItem('login',status)
+            if(!data)
+            {
+                document.getElementById('userExist').style.display="block"   
+            }
+            for(var i=0;i<data.length;i++)
+            {
+                if((data[i].email).toLowerCase()==(emailEle.value).toLowerCase())
+                {
+                    if(data[i].pass==passEle.value)
+                    {
+                    return true
+                }
+                    else
+                    {
+                        document.getElementById('userExist').style.display="block"
+                        document.getElementById('userExist').textContent="Passwrod not matched."
+                        return false
+                    }
+                }
+            }
+            document.getElementById('userExist').style.display="block"
+            return false
+        }
+
+
+        function loginInfo(e)
+        {
+
+           
+            console.log('button is working')
+            var emailEle=document.querySelectorAll('input')[0]
+            var passEle=document.querySelectorAll('input')[1]
+            let data=JSON.parse(localStorage.getItem('signup'))
+        
+        if(validateAllField(emailEle,passEle))
+        {
+            return
+        }
+         else if(checkUserExit(data,emailEle,passEle))
+          {
+                status=true;
+                localStorage.setItem('login',status)
+                window.location.replace('login.html')
+          }
+           
+           
+        }
+        let signinBtn=document.querySelectorAll('input')[2]
+        window.addEventListener('load',function(){
+            signinBtn.addEventListener('click',loginInfo)
+        })
+        let loginBtn=document.querySelectorAll('li')[1]
+        let signupBtn=document.querySelectorAll('li')[2]
+        loginBtn.addEventListener('click',redirectPage)
+        signupBtn.addEventListener('click',redirectPage)
+        function redirectPage(e)
+        {  
+
+            if(e.target.textContent=='Login')
+            {
+                window.location.href="login.html"
+            }
+            else if(e.target.textContent=='Signup')
+            {
+                window.location.href="signup.html"
+            }
+           
+        }
+       
+
+
+
+
+
+    </script>
+</body>
+</html>
